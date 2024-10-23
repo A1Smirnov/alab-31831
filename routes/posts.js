@@ -3,13 +3,34 @@ const router = express.Router();
 const posts = require("../data/posts"); // Posts data
 const comments = require("../data/comments"); // Comments data
 
-// Existing routes for posts...
-
 // New Route: GET /api/posts/:id
 router.get("/:id", (req, res) => {
   const post = posts.find(p => p.id == req.params.id);
   if (post) {
     res.json(post);
+  } else {
+    res.status(404).json({ error: "Post Not Found" });
+  }
+});
+
+// New Route: PATCH /api/posts/:id
+router.patch("/:id", (req, res) => {
+  const post = posts.find(p => p.id == req.params.id);
+  if (post) {
+    post.body = req.body.body || post.body; // Update the post body
+    // Here you can update other fields if necessary
+    res.json(post);
+  } else {
+    res.status(404).json({ error: "Post Not Found" });
+  }
+});
+
+// New Route: DELETE /api/posts/:id
+router.delete("/:id", (req, res) => {
+  const index = posts.findIndex(p => p.id == req.params.id);
+  if (index !== -1) {
+    const deletedPost = posts.splice(index, 1); // Remove post from array
+    res.json(deletedPost);
   } else {
     res.status(404).json({ error: "Post Not Found" });
   }
@@ -66,7 +87,7 @@ router.get("/comments/:id", (req, res) => {
 router.patch("/comments/:id", (req, res) => {
   const comment = comments.find(c => c.id == req.params.id);
   if (comment) {
-    comment.body = req.body.body || comment.body; // Update the body
+    comment.body = req.body.body || comment.body; // Update the comment body
     res.json(comment);
   } else {
     res.status(404).json({ error: "Comment Not Found" });
