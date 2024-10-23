@@ -5,6 +5,16 @@ const comments = require("../data/comments"); // Comments data
 
 // Existing routes for posts...
 
+// New Route: GET /api/posts/:id
+router.get("/:id", (req, res) => {
+  const post = posts.find(p => p.id == req.params.id);
+  if (post) {
+    res.json(post);
+  } else {
+    res.status(404).json({ error: "Post Not Found" });
+  }
+});
+
 // New Route: GET /api/users/:id/posts
 router.get("/users/:id/posts", (req, res) => {
   const userPosts = posts.filter(post => post.userId == req.params.id);
