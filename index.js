@@ -1,10 +1,12 @@
 const express = require('express');
 const app = express();
-const PORT = 3000; // Задайте значение порта по умолчанию
+const PORT = 3000; //default port later dotenv that
 const usersRouter = require("./routes/users.js");
 const postsRouter = require("./routes/posts.js");
 const error = require('./utilities/error.js');
 const path = require('path');
+//fixing comments
+const commentsRouter = require("./routes/comments.js"); 
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -21,7 +23,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Уберите API-KEY Middleware
+//  API-KEY Middleware
 // app.use('/api', (req, res, next) => {
 //   const key = req.query["api-key"];
 //   if (!key) {
@@ -39,6 +41,8 @@ app.use((req, res, next) => {
 // Router Set Up
 app.use("/api/users", usersRouter);
 app.use("/api/posts", postsRouter);
+// Comments router re-setuped
+app.use("/api/comments", commentsRouter); 
 
 // New User form
 app.get("/users/new", (req, res) => {
