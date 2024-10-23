@@ -67,7 +67,7 @@ router.post("/comments", (req, res) => {
       body,
     };
     comments.push(comment);
-    res.json(comment);
+    res.status(201).json(comment); // RETURN
   } else {
     res.status(400).json({ error: "Insufficient Data" });
   }
