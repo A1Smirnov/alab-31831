@@ -73,4 +73,39 @@ router.delete("/:id", (req, res) => {
   }
 });
 
+// New Routes
+// GET /posts/:id/comments
+router.get("/posts/:id/comments", (req, res) => {
+  const postComments = comments.filter(c => c.postId == req.params.id);
+  res.json(postComments); // Return comments for the specified post
+});
+
+// GET /users/:id/comments
+router.get("/users/:id/comments", (req, res) => {
+  const userComments = comments.filter(c => c.userId == req.params.id);
+  res.json(userComments); // Return comments made by the specified user
+});
+
+// GET /posts/:id/comments?userId=<VALUE>
+router.get("/posts/:id/comments", (req, res) => {
+  const postId = req.params.id;
+  const userId = req.query.userId;
+  
+  const postComments = comments.filter(c => c.postId == postId);
+  const filteredComments = userId ? postComments.filter(c => c.userId == userId) : postComments;
+  
+  res.json(filteredComments); // Return filtered comments for the specified post
+});
+
+// GET /users/:id/comments?postId=<VALUE>
+router.get("/users/:id/comments", (req, res) => {
+  const userId = req.params.id;
+  const postId = req.query.postId;
+
+  const userComments = comments.filter(c => c.userId == userId);
+  const filteredComments = postId ? userComments.filter(c => c.postId == postId) : userComments;
+  
+  res.json(filteredComments); // Return filtered comments made by the specified user
+});
+
 module.exports = router;
