@@ -4,7 +4,19 @@ const comments = require("../data/comments"); // Comments data
 
 // GET /comments
 router.get("/", (req, res) => {
-  res.json(comments); // Return all comments
+  let filteredComments = comments;
+
+  // Filter by userId if provided
+  if (req.query.userId) {
+    filteredComments = filteredComments.filter(c => c.userId == req.query.userId);
+  }
+
+  // Filter by postId if provided
+  if (req.query.postId) {
+    filteredComments = filteredComments.filter(c => c.postId == req.query.postId);
+  }
+
+  res.json(filteredComments); // Return filtered comments
 });
 
 // POST /comments
