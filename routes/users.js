@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const users = require("../data/users"); // Путь изменен на ../data/users
+const users = require("../data/users"); // Path to users data
+const posts = require("../data/posts"); // Add path to posts data
 
 router
   .route("/")
@@ -15,7 +16,7 @@ router
       }
 
       const user = {
-        id: users.length > 0 ? users[users.length - 1].id + 1 : 1, // Проверка на наличие пользователей
+        id: users.length > 0 ? users[users.length - 1].id + 1 : 1, // Check for existing users
         name: req.body.name,
         username: req.body.username,
         email: req.body.email,
@@ -59,5 +60,11 @@ router
     if (user) res.json(user);
     else next();
   });
+
+// New Route: GET /api/users/:id/posts
+router.get("/:id/posts", (req, res) => {
+  const userPosts = posts.filter(post => post.userId == req.params.id);
+  res.json(userPosts);
+});
 
 module.exports = router;

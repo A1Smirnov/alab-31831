@@ -7,6 +7,8 @@ const error = require('./utilities/error.js');
 const path = require('path');
 //fixing comments
 const commentsRouter = require("./routes/comments.js"); 
+// Importing comments data
+const comments = require("./data/comments");
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -41,8 +43,8 @@ app.use((req, res, next) => {
 // Router Set Up
 app.use("/api/users", usersRouter);
 app.use("/api/posts", postsRouter);
-// Comments router re-setuped
-app.use("/api/comments", commentsRouter); 
+// Comments router re-setuped, and fixed one more time
+app.use("/comments", commentsRouter);
 
 // New User form
 app.get("/users/new", (req, res) => {
@@ -97,6 +99,11 @@ app.get("/api", (req, res) => {
 
 app.get("/", (req, res) => {
   res.send("Work in progress!");
+});
+
+//Fixed a bug with request to /comments instead of /api/comments
+app.get("/comments", (req, res) => {
+  res.json(comments); // Return comments
 });
 
 // 404 Error Handling Middleware

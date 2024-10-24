@@ -36,11 +36,11 @@ router.delete("/:id", (req, res) => {
   }
 });
 
-// New Route: GET /api/users/:id/posts
-router.get("/users/:id/posts", (req, res) => {
-  const userPosts = posts.filter(post => post.userId == req.params.id);
-  res.json(userPosts);
-});
+// // New Route: GET /api/users/:id/posts
+// router.get("/users/:id/posts", (req, res) => {
+//   const userPosts = posts.filter(post => post.userId == req.params.id);
+//   res.json(userPosts);
+// });
 
 // New Route: GET /api/posts?userId=<VALUE>
 router.get("/", (req, res) => {
